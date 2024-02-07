@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quacker-api-gateway
+spec:
+  selector:
+    matchLabels:
+      app: quacker-api-gateway
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: quacker-api-gateway
+    spec:
+      containers:
+        - name: quacker-api-gateway
+          image: quackernl/quacker-api-gateway:staging
+          imagePullPolicy: 'Always'
+          ports:
+            - containerPort: 5021

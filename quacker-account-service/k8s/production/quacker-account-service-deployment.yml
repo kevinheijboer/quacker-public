@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quacker-account-service
+  labels:
+    app: quacker-account-service
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quacker-account-service
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: quacker-account-service
+        version: v1
+    spec:
+      containers:
+        - name: quacker-account-service
+          image: quackernl/quacker-account-service:latest
+          imagePullPolicy: 'Always'
+          ports:
+            - containerPort: 5072
+          resources:
+            requests:
+              memory: '100Mi'
+              cpu: '100m'
+            limits:
+              memory: '200Mi'
+              cpu: '500m'
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: quacker-account-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: quacker-account-service
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 95

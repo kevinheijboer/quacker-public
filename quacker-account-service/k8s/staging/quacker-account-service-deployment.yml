@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quacker-account-service
+spec:
+  selector:
+    matchLabels:
+      app: quacker-account-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: quacker-account-service
+    spec:
+      containers:
+        - name: quacker-account-service
+          image: quackernl/quacker-account-service:staging
+          imagePullPolicy: 'Always'
+          ports:
+            - containerPort: 5072

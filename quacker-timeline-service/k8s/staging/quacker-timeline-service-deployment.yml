@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quacker-timeline-service
+spec:
+  selector:
+    matchLabels:
+      app: quacker-timeline-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: quacker-timeline-service
+    spec:
+      containers:
+        - name: quacker-timeline-service
+          image: quackernl/quacker-timeline-service:staging
+          imagePullPolicy: 'Always'
+          ports:
+            - containerPort: 5067

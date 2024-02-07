@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quacker-frontend
+spec:
+  selector:
+    matchLabels:
+      app: quacker-frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: quacker-frontend
+    spec:
+      containers:
+        - name: quacker-frontend
+          image: quackernl/quacker-frontend:staging
+          imagePullPolicy: 'Always'
+          ports:
+            - containerPort: 80

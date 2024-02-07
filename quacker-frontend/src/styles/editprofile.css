@@ -1,0 +1,39 @@
+#signup {
+  cursor: pointer;
+}
+
+.logo-container {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.signup-button {
+  width: 100%;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 90px;
+  text-transform: none;
+  border-radius: 2.5em;
+  height: 46px;
+  color: white !important;
+}
+
+.close-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  text-transform: none;
+  border-radius: 2.5em;
+  color: white !important;
+}
+
+.edit-profile-button {
+  display: flex;
+  margin-left: auto;
+  text-transform: none;
+  border-radius: 2.5em;
+  color: #40c4ff !important;
+  background: none !important;
+  border: 1px solid #40c4ff;
+}

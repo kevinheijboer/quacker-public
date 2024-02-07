@@ -1,0 +1,196 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/quacks",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-quack-service",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/quacks",
+      "UpstreamHttpMethod": [ "GET", "POST", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/quacks/{quackId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-quack-service",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/quacks/{quackId}",
+      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/quacks/user/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-quack-service",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/quacks/user/{username}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/trends",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-quack-service",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/trends",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/accounts",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-account-service",
+          "Port": 5072
+        }
+      ],
+      "UpstreamPathTemplate": "/api/accounts",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/accounts/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-account-service",
+          "Port": 5072
+        }
+      ],
+      "UpstreamPathTemplate": "/api/accounts/{username}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/accounts/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-account-service",
+          "Port": 5072
+        }
+      ],
+      "UpstreamPathTemplate": "/api/accounts/{userId}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/follow",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-follow-service",
+          "Port": 5082
+        }
+      ],
+      "UpstreamPathTemplate": "/api/follow",
+      "UpstreamHttpMethod": [ "GET", "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/follow/followcount/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-follow-service",
+          "Port": 5082
+        }
+      ],
+      "UpstreamPathTemplate": "/api/follow/followcount/{username}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/follow/unfollow",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-follow-service",
+          "Port": 5082
+        }
+      ],
+      "UpstreamPathTemplate": "/api/follow/unfollow",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/followers/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-follow-service",
+          "Port": 5082
+        }
+      ],
+      "UpstreamPathTemplate": "/api/followers/{username}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/following/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-follow-service",
+          "Port": 5082
+        }
+      ],
+      "UpstreamPathTemplate": "/api/following/{username}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/follow/IsFollowing/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-follow-service",
+          "Port": 5082
+        }
+      ],
+      "UpstreamPathTemplate": "/api/follow/IsFollowing/{username}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/auth/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-auth-service",
+          "Port": 5088
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth/register",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/auth/signin",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-auth-service",
+          "Port": 5088
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth/signin",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/timeline",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "quacker-timeline-service",
+          "Port": 5067
+        }
+      ],
+      "UpstreamPathTemplate": "/api/timeline",
+      "UpstreamHttpMethod": [ "GET" ]
+    }
+  ]
+}

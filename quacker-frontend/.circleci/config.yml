@@ -1,0 +1,140 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: node:lts-alpine
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install dependencies
+          command: |
+            npm install
+      - run:
+          name: Build project
+          command: |
+            npm run build
+  sonarcloud:
+    docker:
+      - image: node:latest
+    steps:
+      - checkout
+      - setup_remote_docker
+      - sonarcloud/scan
+  stage:
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t quackernl/quacker-frontend:staging --build-arg ENVIRONMENT=staging .
+      - run:
+          name: Push Docker Image
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker tag quackernl/quacker-frontend:staging quackernl/quacker-frontend:staging-$CIRCLE_SHA1
+            docker push quackernl/quacker-frontend:staging
+            docker push quackernl/quacker-frontend:staging-$CIRCLE_SHA1
+      - run:
+          name: Install doctl
+          command: |
+            cd ~
+            wget https://github.com/digitalocean/doctl/releases/download/v1.57.0/doctl-1.57.0-linux-amd64.tar.gz
+            tar xf ~/doctl-1.57.0-linux-amd64.tar.gz
+            sudo mv ~/doctl /usr/local/bin
+            doctl auth init --access-token $DO_API_TOKEN
+            doctl kubernetes cluster kubeconfig save $DO_CLUSTER_ID
+      - run:
+          name: Install kubectl
+          command: |
+            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+            curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+            echo "$(<kubectl.sha256) kubectl" | sha256sum --check
+            sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+            kubectl version --client
+      - run:
+          name: Deploy Code
+          command: |
+            kubectl config set-context --current --namespace=$QUACKER_STAGING_NAMESPACE
+            kubectl apply -f k8s/staging/quacker-frontend-deployment.yml
+            kubectl apply -f k8s/staging/quacker-frontend-service.yml 
+            kubectl apply -f k8s/staging/quacker-frontend-ingress.yml
+            kubectl rollout restart deployment/quacker-frontend
+  deploy:
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t quackernl/quacker-frontend:latest --build-arg ENVIRONMENT=production .
+      - run:
+          name: Push Docker Image
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker tag quackernl/quacker-frontend:latest quackernl/quacker-frontend:$CIRCLE_SHA1
+            docker push quackernl/quacker-frontend:latest
+            docker push quackernl/quacker-frontend:$CIRCLE_SHA1
+      - run:
+          name: Install doctl
+          command: |
+            cd ~
+            wget https://github.com/digitalocean/doctl/releases/download/v1.57.0/doctl-1.57.0-linux-amd64.tar.gz
+            tar xf ~/doctl-1.57.0-linux-amd64.tar.gz
+            sudo mv ~/doctl /usr/local/bin
+            doctl auth init --access-token $DO_API_TOKEN
+            doctl kubernetes cluster kubeconfig save $DO_CLUSTER_ID
+      - run:
+          name: Install kubectl
+          command: |
+            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+            curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+            echo "$(<kubectl.sha256) kubectl" | sha256sum --check
+            sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+            kubectl version --client
+      - run:
+          name: Deploy Code
+          command: |
+            kubectl config set-context --current --namespace=$QUACKER_PROD_NAMESPACE
+            kubectl apply -f k8s/production/quacker-frontend-deployment.yml
+            kubectl apply -f k8s/production/quacker-frontend-service.yml 
+            kubectl apply -f k8s/production/quacker-frontend-ingress.yml
+            kubectl rollout restart deployment/quacker-frontend
+
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.0.0
+  cypress: cypress-io/cypress@1
+
+workflows:
+  version: 2
+  build-master:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: main
+      - sonarcloud:
+          context: sonarcloud
+      - stage:
+          requires:
+            - build
+          context:
+            - quacker
+      - cypress/run:
+          requires:
+            - stage
+          store_artifacts: true
+      - acceptance testing:
+          type: approval
+          requires:
+            - stage
+      - deploy:
+          requires:
+            - acceptance testing
+          context:
+            - quacker

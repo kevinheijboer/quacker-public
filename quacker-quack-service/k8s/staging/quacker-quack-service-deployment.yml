@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quacker-quack-service
+spec:
+  selector:
+    matchLabels:
+      app: quacker-quack-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: quacker-quack-service
+    spec:
+      containers:
+        - name: quacker-quack-service
+          image: quackernl/quacker-quack-service:staging
+          imagePullPolicy: 'Always'
+          ports:
+            - containerPort: 5000

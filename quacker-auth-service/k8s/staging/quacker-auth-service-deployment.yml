@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quacker-auth-service
+spec:
+  selector:
+    matchLabels:
+      app: quacker-auth-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: quacker-auth-service
+    spec:
+      containers:
+        - name: quacker-auth-service
+          image: quackernl/quacker-auth-service:staging
+          imagePullPolicy: 'Always'
+          ports:
+            - containerPort: 5088

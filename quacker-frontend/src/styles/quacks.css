@@ -1,0 +1,158 @@
+.quack-container {
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+p {
+  word-wrap: break-word;
+  max-width: 100%;
+  margin-right: 15px;
+}
+
+.picture-col {
+  margin-right: 12px;
+  display: flex;
+  margin-top: 20px;
+}
+
+.quack-col {
+  width: 90%;
+}
+
+.quacked-col {
+  margin-left: 63px;
+  padding-bottom: 15px;
+}
+
+.quacked-col span {
+  margin-top: 0px;
+  display: inline;
+}
+
+.picture-col img {
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+}
+
+textarea {
+  font-size: 20px !important;
+  overflow-y: hidden !important;
+}
+
+.break {
+  height: 14px;
+  background-color: #001140;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+label {
+  font-size: 20px !important;
+}
+
+.md-focused label {
+  display: none !important;
+}
+
+.md-has-value label {
+  display: none !important;
+}
+
+.md-field.md-theme-default:after {
+  position: absolute;
+  bottom: -10px;
+}
+
+.md-field.md-theme-default:before {
+  position: absolute;
+  bottom: -10px;
+}
+
+.quack-button {
+  float: right;
+  text-transform: none;
+  border-radius: 2.5em;
+  color: white !important;
+}
+
+.empty {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: center;
+}
+
+.empty h2 {
+  margin-top: 0px;
+  margin-bottom: 12px;
+}
+
+.empty p {
+  color: #cccccc;
+}
+
+.quack-picture-col img {
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+}
+
+.quack-picture-col {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.quack-picture-col h3 {
+  margin-left: 15px;
+}
+
+.quack-picture-col p {
+  margin-left: 10px;
+}
+
+.quack-picture-col h3 {
+  cursor: pointer;
+}
+
+.quack-picture-col h3:hover {
+  text-decoration: underline;
+}
+
+.quack-loading-bar {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.quack-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.quack-header p {
+  margin-bottom: 11px;
+}
+
+.bin {
+  margin-left: auto;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.bin:hover {
+  color: #ff0033;
+}

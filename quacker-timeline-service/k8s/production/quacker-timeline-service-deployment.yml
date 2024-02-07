@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quacker-timeline-service
+  labels:
+    app: quacker-timeline-service
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quacker-timeline-service
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: quacker-timeline-service
+        version: v1
+    spec:
+      containers:
+        - name: quacker-timeline-service
+          image: quackernl/quacker-timeline-service:latest
+          imagePullPolicy: 'Always'
+          ports:
+            - containerPort: 5067
+          resources:
+            requests:
+              memory: '100Mi'
+              cpu: '100m'
+            limits:
+              memory: '200Mi'
+              cpu: '500m'
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: quacker-timeline-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: quacker-timeline-service
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 95

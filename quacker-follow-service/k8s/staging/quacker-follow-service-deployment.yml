@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quacker-follow-service
+spec:
+  selector:
+    matchLabels:
+      app: quacker-follow-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: quacker-follow-service
+    spec:
+      containers:
+        - name: quacker-follow-service
+          image: quackernl/quacker-follow-service:staging
+          imagePullPolicy: 'Always'
+          ports:
+            - containerPort: 5082

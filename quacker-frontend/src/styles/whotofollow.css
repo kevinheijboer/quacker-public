@@ -1,0 +1,103 @@
+.whotofollow {
+  position: fixed;
+}
+
+.follow-container {
+  background-color: #001140;
+  width: 398px;
+  height: 50vh;
+  border-radius: 21px;
+  margin-bottom: 20px;
+  overflow-y: hidden;
+}
+
+@media only screen and (max-width: 1282px) {
+  .follow-container {
+    background-color: #001140;
+    width: 288px;
+    border-radius: 21px;
+  }
+}
+
+.trends-container {
+  background-color: #001140;
+  width: 398px;
+  height: 40vh;
+  border-radius: 21px;
+  overflow-y: hidden;
+}
+
+@media only screen and (max-width: 1282px) {
+  .trends-container {
+    background-color: #001140;
+    width: 288px;
+    border-radius: 21px;
+  }
+}
+
+.follow-header {
+  border-bottom: solid #a7a7a7 1px;
+  padding-left: 30px;
+  padding-bottom: 15px;
+  padding-top: 20px;
+}
+
+.user-row {
+  border-bottom: solid #a7a7a7 1px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.username {
+  color: #cccccc;
+}
+
+p {
+  margin: 0px;
+}
+
+h2 {
+  margin: 0px;
+}
+
+h3 {
+  margin: 0px;
+}
+
+img {
+  width: 48px !important;
+  min-width: 48px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.follow-button {
+  display: flex;
+  margin-left: auto;
+  text-transform: none;
+  border-radius: 2.5em;
+  color: #40c4ff !important;
+  background: none !important;
+  border: 1px solid #40c4ff;
+}
+
+.username-container h3 {
+  cursor: pointer;
+}
+
+.username-container h3:hover {
+  text-decoration: underline;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30vh;
+}

@@ -1,0 +1,234 @@
+.title-container {
+  display: flex;
+  align-items: center;
+  margin-top: -15px;
+}
+
+.back-arrow {
+  color: #40c4ff !important;
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+.profile-container {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.profile-container img {
+  width: 134px;
+  min-width: 134px;
+  height: 134px;
+  min-height: 134px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.name {
+  margin: 0px;
+}
+
+.light {
+  margin: 0px;
+  color: #cccccc;
+}
+
+.light b {
+  color: white;
+}
+
+.followcount {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.followcount p {
+  margin-right: 20px;
+}
+
+.empty {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: center;
+}
+
+.empty h2 {
+  margin-top: 0px;
+  margin-bottom: 12px;
+}
+
+.empty p {
+  color: #cccccc;
+}
+
+.quack-picture-col img {
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+}
+
+.quack-picture-col {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.quack-picture-col h3 {
+  margin-left: 15px;
+}
+
+.quack-picture-col p {
+  margin-left: 10px;
+}
+
+.attributes {
+  display: flex;
+  align-items: center;
+}
+
+.attributes p {
+  margin-right: 15px;
+}
+
+.attributes span {
+  margin-right: 5px;
+}
+
+.quack-button {
+  text-transform: none;
+  border-radius: 2.5em;
+  color: white !important;
+  font-size: 15px !important;
+}
+
+.quack-picture-col h3 {
+  cursor: pointer;
+}
+
+.quack-picture-col h3:hover {
+  text-decoration: underline;
+}
+
+.edit-container {
+  display: flex;
+  align-items: center;
+}
+
+.edit-profile-button {
+  display: flex;
+  margin-left: auto;
+  text-transform: none;
+  border-radius: 2.5em;
+  color: #40c4ff !important;
+  background: none !important;
+  border: 1px solid #40c4ff;
+}
+
+.quack-picture-col img {
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+}
+
+.quack-picture-col {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.quack-picture-col h3 {
+  margin-left: 15px;
+}
+
+.quack-picture-col p {
+  margin-left: 10px;
+}
+
+.quack-picture-col h3 {
+  cursor: pointer;
+}
+
+.quack-picture-col h3:hover {
+  text-decoration: underline;
+}
+
+.quack-col {
+  width: 90%;
+  margin-left: 63px;
+}
+
+.quack-col p {
+  margin-top: 0px;
+}
+
+p {
+  word-wrap: break-word;
+  max-width: 100%;
+  margin-right: 15px;
+}
+
+.follow-button {
+  display: flex;
+  margin-left: auto;
+  text-transform: none;
+  border-radius: 2.5em;
+  color: #40c4ff !important;
+  background: none !important;
+  border: 1px solid #40c4ff;
+}
+
+.following-button {
+  display: flex;
+  margin-left: auto;
+  text-transform: none;
+  border-radius: 2.5em;
+  color: white !important;
+}
+
+.following-button:hover {
+  display: flex;
+  margin-left: auto;
+  text-transform: none;
+  border-radius: 2.5em;
+  color: white !important;
+  background: rgb(202, 32, 85) !important;
+  border: 1px solid white;
+}
+
+.following-options {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.following-options p {
+  margin: 0;
+  font-weight: bold;
+  color: #cccccc;
+}
+
+.following-options .followers:hover p {
+  color: #40c4ff;
+  cursor: pointer;
+}
+
+.following-options .following:hover p {
+  color: #40c4ff;
+  cursor: pointer;
+}
+
+.active {
+  color: #40c4ff;
+  text-decoration: underline;
+}

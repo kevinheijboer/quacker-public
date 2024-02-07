@@ -1,0 +1,121 @@
+version: 2.1
+orbs:
+  win: circleci/windows@2.2.0
+jobs:
+  build:
+    executor: win/default
+    steps:
+      - checkout
+      - run: dotnet build
+  test:
+    executor: win/default
+    steps:
+      - checkout
+      - run: dotnet test
+  stage:
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t quackernl/quacker-account-service:staging --build-arg ENVIRONMENT=Staging .
+      - run:
+          name: Push Docker Image
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker tag quackernl/quacker-account-service:staging quackernl/quacker-account-service:staging-$CIRCLE_SHA1
+            docker push quackernl/quacker-account-service:staging
+            docker push quackernl/quacker-account-service:staging-$CIRCLE_SHA1
+      - run:
+          name: Install doctl
+          command: |
+            cd ~
+            wget https://github.com/digitalocean/doctl/releases/download/v1.57.0/doctl-1.57.0-linux-amd64.tar.gz
+            tar xf ~/doctl-1.57.0-linux-amd64.tar.gz
+            sudo mv ~/doctl /usr/local/bin
+            doctl auth init --access-token $DO_API_TOKEN
+            doctl kubernetes cluster kubeconfig save $DO_CLUSTER_ID
+      - run:
+          name: Install kubectl
+          command: |
+            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+            curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+            echo "$(<kubectl.sha256) kubectl" | sha256sum --check
+            sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+            kubectl version --client
+      - run:
+          name: Deploy Code
+          command: |
+            kubectl config set-context --current --namespace=$QUACKER_STAGING_NAMESPACE	
+            kubectl apply -f k8s/staging/quacker-account-service-deployment.yml
+            kubectl apply -f k8s/staging/quacker-account-service-service.yml
+            kubectl rollout restart deployment/quacker-account-service
+  deploy:
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t quackernl/quacker-account-service:latest --build-arg ENVIRONMENT=Production .
+      - run:
+          name: Push Docker Image
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker tag quackernl/quacker-account-service:latest quackernl/quacker-account-service:$CIRCLE_SHA1
+            docker push quackernl/quacker-account-service:latest
+            docker push quackernl/quacker-account-service:$CIRCLE_SHA1
+      - run:
+          name: Install doctl
+          command: |
+            cd ~
+            wget https://github.com/digitalocean/doctl/releases/download/v1.57.0/doctl-1.57.0-linux-amd64.tar.gz
+            tar xf ~/doctl-1.57.0-linux-amd64.tar.gz
+            sudo mv ~/doctl /usr/local/bin
+            doctl auth init --access-token $DO_API_TOKEN
+            doctl kubernetes cluster kubeconfig save $DO_CLUSTER_ID
+      - run:
+          name: Install kubectl
+          command: |
+            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+            curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+            echo "$(<kubectl.sha256) kubectl" | sha256sum --check
+            sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+            kubectl version --client
+      - run:
+          name: Deploy Code
+          command: |
+            kubectl config set-context --current --namespace=$QUACKER_PROD_NAMESPACE	
+            kubectl apply -f k8s/production/quacker-account-service-deployment.yml
+            kubectl apply -f k8s/production/quacker-account-service-service.yml
+            kubectl rollout restart deployment/quacker-account-service
+workflows:
+  version: 2
+  build-master:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: main
+      - test:
+          requires:
+            - build
+      - stage:
+          context:
+            - quacker
+          requires:
+            - test
+      - acceptance testing:
+          type: approval
+          requires:
+            - stage
+      - deploy:
+          requires:
+            - acceptance testing
+          context:
+            - quacker
